@@ -3,26 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dito App - MVP Premium</title>
+    <title>Dito App</title>
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #4f46e5;
-            --primary-glow: rgba(79, 70, 229, 0.4);
-            --bg-dark: #070709;
-            --bg-card: #121216;
-            --bg-input: #1a1a20;
-            --text-main: #ffffff;
-            --text-muted: #94a3b8;
-            --accent: #10b981;
-            --glass: rgba(18, 18, 22, 0.8);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --font-main: 'Inter', sans-serif;
-            --font-heading: 'Outfit', sans-serif;
+            --bg: #ffffff;
+            --card-bg: #f7f7f7;
+            --text: #000000;
+            --text-muted: #717171;
+            --border: #e2e2e2;
+            --accent: #000000;
         }
 
         * {
@@ -33,90 +26,89 @@
         }
 
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: var(--font-main);
-            overflow-x: hidden;
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
             min-height: 100vh;
+        }
+
+        .screen {
+            padding: 2rem 1rem 6rem 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-container {
             display: flex;
+            flex-direction: column;
             justify-content: center;
-        }
-
-        #root {
-            width: 100%;
-            max-width: 500px;
             min-height: 100vh;
-            position: relative;
+            padding: 2rem;
+            animation: fadeIn 0.5s ease-out;
         }
 
-        @media (min-width: 1024px) {
-            #root {
-                max-width: 1200px;
-            }
-        }
-
-        .glass {
-            background: var(--glass);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .btn-primary {
-            background: #fff;
-            color: #000;
+        .btn {
+            background: #000000;
+            color: #ffffff;
             border: none;
-            padding: 1rem;
-            border-radius: 1rem;
-            font-weight: 700;
+            padding: 1.2rem;
+            border-radius: 999px;
+            font-weight: 600;
             width: 100%;
             cursor: pointer;
+            font-family: inherit;
             transition: all 0.2s;
-            font-family: var(--font-main);
-        }
-
-        .btn-primary:active {
-            transform: scale(0.98);
         }
 
         input {
             width: 100%;
-            background: var(--bg-input);
-            border: 1px solid var(--glass-border);
-            padding: 1rem;
-            border-radius: 1rem;
-            color: white;
+            background: #fff;
+            border: 1.5px solid #e0e0e0;
+            padding: 1.2rem 1.2rem 1.2rem 3.5rem;
+            border-radius: 999px;
+            color: black;
             outline: none;
-            transition: border 0.3s;
+            font-family: inherit;
             font-size: 1rem;
+            transition: all 0.3s ease;
         }
 
         input:focus {
-            border-color: var(--primary);
+            border-color: #000;
         }
 
-        /* Nav Styles */
+        .input-wrapper {
+            position: relative;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #888;
+        }
+
         .bottom-nav {
             position: fixed;
-            bottom: 2rem;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            max-width: 400px;
+            bottom: 0;
+            left: 0;
+            width: 100%;
             height: 70px;
-            border-radius: 2rem;
+            background: #fff;
             display: flex;
             justify-content: space-around;
             align-items: center;
-            padding: 0 1rem;
-            z-index: 100;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            border-top: 1px solid var(--border);
+            z-index: 1000;
         }
 
         .nav-item {
@@ -124,317 +116,175 @@
             flex-direction: column;
             align-items: center;
             color: var(--text-muted);
-            cursor: pointer;
-            transition: all 0.3s;
+            font-size: 10px;
+            font-weight: 600;
             gap: 4px;
+            cursor: pointer;
         }
 
         .nav-item.active {
-            color: #fff;
-        }
-
-        .nav-icon-wrapper {
-            padding: 8px;
-            border-radius: 12px;
-            transition: all 0.3s;
-        }
-
-        .nav-item.active .nav-icon-wrapper {
-            background: var(--primary);
-            box-shadow: 0 0 15px var(--primary-glow);
-        }
-
-        .nav-label {
-            font-size: 9px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* Screen Layout */
-        .screen {
-            padding: 2rem 1.5rem 8rem 1.5rem;
-            animation: fadeIn 0.4s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .card {
-            background: var(--bg-card);
-            border: 1px solid var(--glass-border);
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .stat-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .profile-header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 2rem;
+            color: #000;
         }
 
         .avatar {
-            width: 50px;
-            height: 50px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background: linear-gradient(45deg, var(--primary), #8b5cf6);
+            background: #f0f0f0;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 700;
-            font-size: 1.2rem;
-        }
-
-        .tag {
-            background: rgba(16, 185, 129, 0.1);
-            color: #10b981;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 12px;
             font-weight: 600;
+            border: 1px solid var(--border);
         }
 
-        .flex { display: flex; }
-        .flex-col { flex-direction: column; }
-        .items-center { align-items: center; }
-        .justify-center { justify-content: center; }
-        .justify-between { justify-content: space-between; }
-        .gap-1 { gap: 0.25rem; }
+        .flex-between { display: flex; justify-content: space-between; align-items: center; }
+        .flex-col { display: flex; flex-direction: column; }
         .gap-2 { gap: 0.5rem; }
-        .gap-3 { gap: 0.75rem; }
         .gap-4 { gap: 1rem; }
-        .gap-6 { gap: 1.5rem; }
-        .gap-8 { gap: 2rem; }
-
-        .p-2 { padding: 0.5rem; }
-        .p-3 { padding: 0.75rem; }
-        .p-4 { padding: 1rem; }
-        .p-5 { padding: 1.25rem; }
-        .p-6 { padding: 1.5rem; }
-        .p-8 { padding: 2rem; }
-
-        .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
-        .px-4 { padding-left: 1rem; padding-right: 1rem; }
-        .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
-        .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
-        .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
-
-        .pt-8 { padding-top: 2rem; }
-        .pb-32 { padding-bottom: 8rem; }
-
-        .w-full { width: 100%; }
-        .h-full { height: 100%; }
-
-        .rounded-lg { border-radius: 0.5rem; }
-        .rounded-xl { border-radius: 0.75rem; }
-        .rounded-2xl { border-radius: 1rem; }
-        .rounded-3xl { border-radius: 1.5rem; }
-        .rounded-full { border-radius: 9999px; }
-
-        .font-bold { font-weight: 700; }
-
-        @media (min-width: 1024px) {
-            .bottom-nav {
-                top: 0;
-                bottom: auto;
-                left: 0;
-                transform: none;
-                width: 260px;
-                height: 100vh;
-                flex-direction: column;
-                justify-content: flex-start;
-                border-radius: 0;
-                padding: 2rem 0;
-                border-right: 1px solid var(--glass-border);
-            }
-            .nav-item {
-                flex-direction: row;
-                width: 100%;
-                padding: 1rem 2rem;
-                gap: 1rem;
-            }
-            .nav-label { font-size: 14px; }
-            .screen { padding-left: 300px; padding-top: 4rem; }
-        }
     </style>
 </head>
 <body>
     <div id="root"></div>
 
-    <script type="text/babel">
-        // Note: In a real standalone, we'd need Babel for JSX. 
-        // For this Demo, I'll use React.createElement to ensure it works without a compiler if opened directly.
-    </script>
-
     <script>
         const { useState, useEffect } = React;
         const e = React.createElement;
 
-        // Simple Icon Component using Lucide
-        const Icon = ({ name, size = 20, color = "currentColor" }) => {
-            const ref = React.useRef(null);
+        const Icon = ({ name, size = 24, color = "currentColor" }) => {
             useEffect(() => {
-                if (window.lucide) {
-                    window.lucide.createIcons();
-                }
+                if (window.lucide) window.lucide.createIcons();
             }, [name]);
-            return e('i', { 
-                'data-lucide': name, 
-                style: { width: size, height: size, color: color } 
-            });
+            return e('i', { 'data-lucide': name, style: { width: size, height: size, color: color } });
         };
 
         const App = () => {
-            const [user, setUser] = useState(null);
+            const [user, setUser] = useState(() => {
+                const saved = localStorage.getItem('dito_user');
+                return saved ? JSON.parse(saved) : null;
+            });
             const [activeTab, setActiveTab] = useState('inicio');
             const [email, setEmail] = useState('');
+            const [showPassword, setShowPassword] = useState(false);
 
-            const handleLogin = (e) => {
-                setUser({ name: email.split('@')[0] || 'Usuário', balance: 1450.00 });
+            const handleLogin = () => {
+                const name = email.split('@')[0] || 'Usuário';
+                const newUser = { name, balance: 1450.00 };
+                setUser(newUser);
+                localStorage.setItem('dito_user', JSON.stringify(newUser));
             };
 
-            if (!user) {
-                return e('div', { className: 'screen', style: { display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: '100vh' } },
-                    e('div', { className: 'glass', style: { padding: '2.5rem', borderRadius: '2.5rem' } },
-                        e('div', { style: { textAlign: 'center', marginBottom: '2.5rem' } },
-                            e('div', { style: { width: '64px', height: '64px', background: 'var(--primary)', borderRadius: '1.2rem', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem' } },
-                                e(Icon, { name: 'package', size: 32, color: '#fff' })
-                            ),
-                            e('h1', { className: 'gradient-text', style: { fontSize: '2rem', fontWeight: '700' } }, 'Dito Premium'),
-                            e('p', { style: { color: 'var(--text-muted)', marginTop: '0.5rem' } }, 'Sua plataforma de negócios digitais')
-                        ),
-                        e('div', { style: { display: 'flex', flexDirection: 'column', gap: '1.2rem' } },
-                            e('div', null,
-                                e('label', { style: { fontSize: '12px', color: 'var(--text-muted)', fontWeight: '700', textTransform: 'uppercase', marginBottom: '8px', display: 'block' } }, 'E-mail'),
-                                e('input', { type: 'email', placeholder: 'exemplo@dito.com', value: email, onChange: (e) => setEmail(e.target.value) })
-                            ),
-                            e('div', null,
-                                e('label', { style: { fontSize: '12px', color: 'var(--text-muted)', fontWeight: '700', textTransform: 'uppercase', marginBottom: '8px', display: 'block' } }, 'Senha'),
-                                e('input', { type: 'password', placeholder: '••••••••' })
-                            ),
-                            e('button', { className: 'btn-primary', onClick: handleLogin, style: { marginTop: '1rem' } }, 'Acessar Conta'),
-                            e('p', { style: { textAlign: 'center', fontSize: '14px', color: 'var(--text-muted)' } }, 
-                                'Ainda não tem conta? ', 
-                                e('span', { style: { color: 'var(--primary)', fontWeight: '700', cursor: 'pointer' } }, 'Cadastre-se')
-                            )
-                        )
-                    )
-                );
-            }
+            const handleLogout = () => {
+                setUser(null);
+                localStorage.removeItem('dito_user');
+            };
 
-            const screens = {
-                inicio: e('div', { className: 'screen' },
-                    e('div', { className: 'profile-header' },
-                        e('div', { className: 'avatar' }, user.name[0].toUpperCase()),
-                        e('div', null,
-                            e('h2', { style: { fontSize: '1.5rem' } }, 'Olá, ' + user.name + '!'),
-                            e('p', { style: { color: 'var(--text-muted)', fontSize: '14px' } }, 'Bem-vindo de volta.')
+            const screens = user ? {
+                inicio: e('div', null,
+                    e('div', { className: 'flex-between', style: { marginBottom: '2rem' } },
+                        e('div', { className: 'avatar' }, (user.name ? user.name[0] : 'U').toUpperCase()),
+                        e('div', { className: 'flex-between', style: { gap: '1.2rem' } },
+                            e('div', { style: { cursor: 'pointer' } }, e(Icon, { name: 'search' })),
+                            e('div', { style: { cursor: 'pointer', color: '#ff4444' }, onClick: handleLogout }, e(Icon, { name: 'log-out' }))
                         )
                     ),
-                    e('div', { className: 'card', style: { background: 'linear-gradient(135deg, #1e1b4b 0%, #121216 100%)' } },
-                        e('p', { style: { color: 'var(--text-muted)', fontSize: '13px', fontWeight: '500' } }, 'Saldo disponível'),
-                        e('h3', { style: { fontSize: '2.5rem', margin: '0.5rem 0' } }, 'R$ ' + user.balance.toFixed(2)),
-                        e('div', { style: { display: 'flex', gap: '8px' } },
-                            e('span', { className: 'tag' }, '+ 18% este mês')
-                        )
+                    e('div', { className: 'card' },
+                        e('p', { style: { fontSize: '14px', color: 'var(--text-muted)' } }, 'Saldo total'),
+                        e('h2', { style: { fontSize: '2.5rem', margin: '0.5rem 0' } }, 'R$ ' + user.balance.toLocaleString('pt-BR')),
+                        e('div', { className: 'btn', style: { padding: '0.5rem', textAlign: 'center', marginTop: '1rem', background: '#f0f0f0', color: '#000' } }, 'Acessar histórico')
                     ),
-                    e('div', { className: 'stat-grid' },
-                        e('div', { className: 'card' },
-                            e(Icon, { name: 'users', color: '#818cf8' }),
-                            e('p', { style: { fontSize: '1.5rem', fontWeight: '700', marginTop: '8px' } }, '124'),
-                            e('p', { style: { fontSize: '12px', color: 'var(--text-muted)' } }, 'Cliques hoje')
-                        ),
-                        e('div', { className: 'card' },
-                            e(Icon, { name: 'shopping-cart', color: '#c084fc' }),
-                            e('p', { style: { fontSize: '1.5rem', fontWeight: '700', marginTop: '8px' } }, 'R$ 87,50'),
-                            e('p', { style: { fontSize: '12px', color: 'var(--text-muted)' } }, 'Vendas hoje')
-                        )
-                    ),
-                    e('h4', { style: { margin: '1rem 0' } }, 'Atividade Recente'),
-                    [1, 2, 3].map(i => e('div', { key: i, className: 'glass', style: { padding: '1rem', borderRadius: '1rem', marginBottom: '0.8rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' } },
-                        e('div', { style: { display: 'flex', gap: '12px', alignItems: 'center' } },
-                            e('div', { style: { background: 'rgba(79, 70, 229, 0.1)', padding: '10px', borderRadius: '12px' } }, e(Icon, { name: 'check-circle', color: '#4f46e5' })),
-                            e('div', null,
-                                e('p', { style: { fontSize: '14px', fontWeight: '600' } }, 'Comissão Recebida'),
-                                e('p', { style: { fontSize: '12px', color: 'var(--text-muted)' } }, 'Produto Digital X')
-                            )
-                        ),
-                        e('p', { style: { color: '#10b981', fontWeight: '700' } }, '+ R$ 45,00')
-                    ))
-                ),
-                mercado: e('div', { className: 'screen' },
-                    e('h2', { style: { marginBottom: '1.5rem' } }, 'Mercado de Afiliados'),
-                    [1,2,3,4].map(i => e('div', { key: i, className: 'card', style: { padding: '0', overflow: 'hidden' } },
-                        e('div', { style: { height: '100px', background: 'linear-gradient(45deg, #1e1b4b, #312e81)' } }),
-                        e('div', { style: { padding: '1.2rem' } },
-                            e('h4', null, 'Método Infoprodutor ' + i),
-                            e('p', { style: { fontSize: '12px', color: 'var(--text-muted)', marginBottom: '1rem' } }, 'Por Andre Oliveira'),
-                            e('div', { style: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' } },
-                                e('div', null,
-                                    e('p', { style: { fontSize: '11px', color: 'var(--text-muted)' } }, 'Comissão de até'),
-                                    e('p', { style: { color: '#10b981', fontWeight: '700' } }, 'R$ 149,00')
-                                ),
-                                e('button', { className: 'btn-primary', style: { width: 'auto', padding: '0.6rem 1.2rem', fontSize: '12px' } }, 'Promover')
-                            )
-                        )
-                    ))
-                ),
-                produtos: e('div', { className: 'screen' }, e('h2', null, 'Meus Produtos'), e('p', { style: { color: 'var(--text-muted)', marginTop: '2rem' } }, 'Você ainda não possui produtos cadastrados.')),
-                links: e('div', { className: 'screen' }, e('h2', null, 'Meus Links'), e('p', { style: { color: 'var(--text-muted)', marginTop: '2rem' } }, 'Seus links de afiliado aparecerão aqui.')),
-                sacar: e('div', { className: 'screen' }, 
-                    e('h2', { style: { marginBottom: '1.5rem' } }, 'Solicitar Saque'),
-                    e('div', { className: 'glass', style: { padding: '2rem', borderRadius: '2rem', textAlign: 'center' } },
-                        e('p', { style: { color: 'var(--text-muted)' } }, 'Disponível para saque'),
-                        e('h3', { style: { fontSize: '3rem', margin: '1rem 0' } }, 'R$ ' + user.balance.toFixed(2)),
-                        e('button', { className: 'btn-primary', style: { background: '#10b981', color: '#fff' } }, 'Confirmar Saque')
+                    e('div', { style: { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' } },
+                        e('div', { className: 'card' }, e(Icon, { name: 'users', size: 20, color: '#000' }), e('p', { style: { marginTop: '0.5rem' } }, 'Indicados')),
+                        e('div', { className: 'card' }, e(Icon, { name: 'trending-up', size: 20, color: '#000' }), e('p', { style: { marginTop: '0.5rem' } }, 'Vendas'))
                     )
                 ),
-                perfil: e('div', { className: 'screen' }, 
-                    e('h2', { style: { marginBottom: '1.5rem' } }, 'Configurações'),
-                    e('div', { className: 'card', style: { display: 'flex', alignItems: 'center', gap: '1rem' } },
-                        e(Icon, { name: 'user', size: 24 }),
-                        e('div', null,
-                            e('p', { style: { fontWeight: '700' } }, user.name),
-                            e('p', { style: { fontSize: '12px', color: 'var(--text-muted)' } }, 'Minha Conta')
-                        )
-                    ),
-                    e('div', { className: 'card', style: { padding: '0' } },
-                        ['Dados Pessoais', 'Segurança', 'Notificações', 'Ajuda'].map(item => e('div', { key: item, style: { padding: '1.2rem', borderBottom: '1px solid var(--glass-border)', display: 'flex', justifyContent: 'space-between', cursor: 'pointer' } },
-                            e('span', null, item),
-                            e(Icon, { name: 'chevron-right', size: 16, color: 'var(--text-muted)' })
-                        ))
-                    ),
-                    e('button', { className: 'btn-primary', onClick: () => setUser(null), style: { background: 'rgba(239, 68, 68, 0.1)', color: '#ef4444', marginTop: '1rem' } }, 'Sair do App')
+                mercado: e('div', null,
+                    e('h2', { style: { marginBottom: '1.5rem' } }, 'Mercado'),
+                    [1,2,3].map(i => e('div', { key: i, className: 'card flex-between', style: { padding: '1.2rem' } },
+                        e('div', null, e('p', { style: { fontWeight: '600' } }, 'Produto Digital #' + i), e('p', { style: { fontSize: '12px', color: 'var(--text-muted)' } }, '80% de comissão')),
+                        e(Icon, { name: 'chevron-right', color: '#000' })
+                    ))
+                ),
+                produtos: e('div', null, e('h2', null, 'Produtos'), e('p', { style: { marginTop: '1rem', color: 'var(--text-muted)' } }, 'Lista vazia')),
+                links: e('div', null, e('h2', null, 'Links'), e('p', { style: { marginTop: '1rem', color: 'var(--text-muted)' } }, 'Nenhum link gerado')),
+                sacar: e('div', null, 
+                    e('h2', { style: { marginBottom: '1.5rem' } }, 'Retirada'),
+                    e('div', { className: 'card', style: { textAlign: 'center', padding: '2rem' } },
+                        e('p', { style: { color: 'var(--text-muted)' } }, 'Disponível'),
+                        e('h3', { style: { fontSize: '2rem', margin: '1rem 0' } }, 'R$ ' + user.balance.toLocaleString('pt-BR')),
+                        e('button', { className: 'btn' }, 'Transferir')
+                    )
+                ),
+                perfil: e('div', { className: 'flex-col gap-4' }, 
+                    e('h2', { style: { marginBottom: '1.5rem' } }, 'Perfil'),
+                    e('div', { className: 'card flex-between' }, e('span', null, 'Meus Dados'), e(Icon, { name: 'chevron-right', color: '#000' })),
+                    e('div', { className: 'card flex-between' }, e('span', null, 'Segurança'), e(Icon, { name: 'chevron-right', color: '#000' })),
+                    e('button', { className: 'btn', onClick: handleLogout, style: { background: '#fbeded', color: '#d93025' } }, 'Sair')
                 )
-            };
+            } : {};
 
-            const NavItem = ({ id, icon, label }) => e('div', { 
-                className: 'nav-item ' + (activeTab === id ? 'active' : ''),
-                onClick: () => setActiveTab(id)
-            },
-                e('div', { className: 'nav-icon-wrapper' }, e(Icon, { name: icon, size: 24 })),
-                e('span', { className: 'nav-label' }, label)
-            );
-
-            return e('div', null,
-                screens[activeTab],
-                e('div', { className: 'glass bottom-nav' },
-                    e(NavItem, { id: 'inicio', icon: 'home', label: 'Início' }),
-                    e(NavItem, { id: 'mercado', icon: 'shopping-bag', label: 'Mercado' }),
-                    e(NavItem, { id: 'produtos', icon: 'package', label: 'Produtos' }),
-                    e(NavItem, { id: 'links', icon: 'link', label: 'Links' }),
-                    e(NavItem, { id: 'sacar', icon: 'wallet', label: 'Sacar' }),
-                    e(NavItem, { id: 'perfil', icon: 'user', label: 'Perfil' })
+            return e('div', { style: { minHeight: '100vh', position: 'relative' } },
+                !user ? (
+                    // TELA DE LOGIN
+                    e('div', { className: 'login-container', style: { textAlign: 'center' } },
+                        e('div', { style: { marginBottom: '3rem' } },
+                            e('h1', { style: { fontSize: '3.5rem', fontWeight: '700', letterSpacing: '-2px' } }, 'Dito'),
+                            e('p', { style: { color: 'var(--text-muted)', fontSize: '16px' } }, 'Chame seus amigos!')
+                        ),
+                        e('div', { className: 'flex-col' },
+                            e('div', { className: 'input-wrapper' },
+                                e('div', { className: 'input-icon' }, e(Icon, { name: 'user', size: 20 })),
+                                e('input', { 
+                                    type: 'text', 
+                                    placeholder: 'Nome de usuário', 
+                                    value: email, 
+                                    onChange: (ev) => setEmail(ev.target.value)
+                                })
+                            ),
+                            e('div', { className: 'input-wrapper' },
+                                e('div', { className: 'input-icon' }, e(Icon, { name: 'key', size: 20 })),
+                                e('input', { 
+                                    type: showPassword ? 'text' : 'password', 
+                                    placeholder: 'Senha'
+                                }),
+                                e('div', { 
+                                    style: { position: 'absolute', right: '1.5rem', top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', color: '#888', display: 'flex' },
+                                    onClick: () => setShowPassword(!showPassword)
+                                }, 
+                                    e(Icon, { name: showPassword ? 'eye' : 'eye-off', size: 20 })
+                                )
+                            ),
+                            e('button', { 
+                                className: 'btn', 
+                                onClick: handleLogin,
+                                style: { marginTop: '1rem' }
+                            }, 'Entrar'),
+                            e('button', { 
+                                className: 'btn', 
+                                onClick: handleLogin, 
+                                style: { marginTop: '0.8rem', background: 'transparent', color: '#888', border: '1px solid #e2e2e2' } 
+                            }, 'Entrar como convidado')
+                        )
+                    )
+                ) : (
+                    // TELA PRINCIPAL (LOGADO)
+                    e('div', { key: 'main-app' },
+                        e('div', { className: 'screen', key: activeTab }, screens[activeTab]),
+                        e('div', { className: 'bottom-nav' },
+                            [
+                                { id: 'inicio', icon: 'home', label: 'Início' },
+                                { id: 'mercado', icon: 'shopping-bag', label: 'Mercado' },
+                                { id: 'produtos', icon: 'package', label: 'Produtos' },
+                                { id: 'links', icon: 'link', label: 'Links' },
+                                { id: 'sacar', icon: 'wallet', label: 'Sacar' },
+                                { id: 'perfil', icon: 'user', label: 'Perfil' }
+                            ].map(tab => e('div', { 
+                                key: tab.id, 
+                                className: 'nav-item ' + (activeTab === tab.id ? 'active' : ''),
+                                onClick: () => setActiveTab(tab.id)
+                            }, e(Icon, { name: tab.icon, size: 24, color: activeTab === tab.id ? '#000' : '#888' }), e('span', null, tab.label)))
+                        )
+                    )
                 )
             );
         };
